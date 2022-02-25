@@ -144,5 +144,45 @@ namespace Telephone_Contact_Application_Eron.Controllers
             var m = user.MESAJ;
             return Redirect("/Home/Index");
         }
+
+        public ActionResult CategoryAdd()
+        {
+
+           
+        }
+        [HttpPost]
+        public ActionResult CategoryAdd(Kategori kategori)
+        {
+
+            var url = "http://eronsoftware.com:55301/KULLANICI/kategori/";
+
+            var httpRequest = (HttpWebRequest)WebRequest.Create(url);
+            httpRequest.Method = "POST";
+
+            httpRequest.Headers["islem"] = "KATEGORI_LISTESI_EKLE";
+            httpRequest.Headers["ptoken"] = "OPp60lBs9vqqNiAvzM2QPsgVuzHvld4ZShVGqlYqEcEgi2BGFt";
+            httpRequest.Headers["utoken"] = UToken;
+            httpRequest.ContentType = "text";
+
+            var data = @"{""e_kategori_adi"":" + $"{kategori.KategoriAdi}" + "}";
+
+            using (var streamWriter = new StreamWriter(httpRequest.GetRequestStream()))
+            {
+                streamWriter.Write(data);
+            }
+
+            var result = "";
+            var httpResponse = (HttpWebResponse)httpRequest.GetResponse();
+            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                result = streamReader.ReadToEnd();
+            }
+            result = result.Trim('[');
+            result = result.Trim(']');
+            dynamic user = JsonConvert.DeserializeObject(result);
+
+            var m = user.MESAJ;
+            return Redirect("/Home/Index");
+        }
     }
 }

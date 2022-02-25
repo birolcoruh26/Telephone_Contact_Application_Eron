@@ -136,7 +136,7 @@
     
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background-color:aquamarine">
 
         <div class="container">
             <div class="navbar-header">
@@ -152,16 +152,17 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Categories", "CategoryList", new { CustomerID = HttpContext.Current.Request.QueryString["Home"] }, new { @class = "btn btn-secondary btn-m  ", @tabindex = "20" })</li>
                 </ul>
             </div>
         </div>
     </div>
-    <div class="container body-content">
+    @*<div class="container body-content">*@
         @RenderBody()
        
 
 
-        <footer class="footer footer-color-black">
+        <footer class="footer footer-color-black"style="margin-bottom:-62px">
             <div class="container">
                 <nav class="pull-left">
                     <ul>
@@ -188,7 +189,7 @@
             </div>
         </footer>
         
-    </div>
+    
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
