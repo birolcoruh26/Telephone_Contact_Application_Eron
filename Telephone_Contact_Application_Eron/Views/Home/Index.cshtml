@@ -99,7 +99,6 @@
             font-size: 1.25em;
         }
     </style>
-    
 </head>
 
 <div class="container">
@@ -112,9 +111,13 @@
             <div class="panel panel-default ">
                 <div class="panel-heading c-list">
                     <span class="title">
-                        @ViewBag.response
-                        @ViewBag.mesaj
+                        Contact  @Html.ActionLink("List Categories", "CategoryList", new { CustomerID = HttpContext.Current.Request.QueryString["Home"] }, new { @class = "btn btn-primary btn-sm", @tabindex = "20" })
                     </span>
+                
+    
+                   
+                        
+                    
                     <ul class="pull-right c-controls">
                         <li><a href="#cant-do-all-the-work-for-you" data-toggle="tooltip" data-placement="top" title="Add Contact"><i class="glyphicon glyphicon-plus"></i></a></li>
                         <li><a href="#" class="hide-search" data-command="toggle-search" data-toggle="tooltip" data-placement="top" title="Toggle Search"><i class="fa fa-ellipsis-v"></i></a></li>
