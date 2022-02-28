@@ -42,7 +42,7 @@ namespace Telephone_Contact_Application_Eron.Controllers
         }
 
         public static string UToken;
-        #region login
+        #region login logout
         public dynamic APILogin()
         {
 
@@ -61,6 +61,30 @@ namespace Telephone_Contact_Application_Eron.Controllers
             {
                 streamWriter.Write(data);
             }
+            var result = "";
+            var httpResponse = (HttpWebResponse)httpRequest.GetResponse();
+            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                result = streamReader.ReadToEnd();
+            }
+            result = result.Trim('[');
+            result = result.Trim(']');
+            dynamic user = JsonConvert.DeserializeObject(result);
+            return user;
+        }
+
+        public dynamic APILogout()
+        {
+
+            var url = "http://eronsoftware.com:55301/KULLANICI/authentication/";
+
+            var httpRequest = (HttpWebRequest)WebRequest.Create(url);
+            httpRequest.Method = "POST";
+
+            httpRequest.Headers["islem"] = "LOGOUT";
+            httpRequest.Headers["ptoken"] = "OPp60lBs9vqqNiAvzM2QPsgVuzHvld4ZShVGqlYqEcEgi2BGFt";
+            httpRequest.Headers["utoken"] = UToken;
+            httpRequest.ContentType = "text";
             var result = "";
             var httpResponse = (HttpWebResponse)httpRequest.GetResponse();
             using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
