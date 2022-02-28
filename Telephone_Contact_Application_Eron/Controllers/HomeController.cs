@@ -19,19 +19,59 @@ namespace Telephone_Contact_Application_Eron.Controllers
     {
         public ActionResult Index()
         {
-            var response = APILogin();
-            ViewBag.response = response.UTOKEN;
-            UToken = response.UTOKEN;
-            ViewBag.mesaj = response.MESAJ;
-            return View(response);
+            //var response = APILogin();
+            //ViewBag.response = response.UTOKEN;
+            //UToken = response.UTOKEN;
+            //ViewBag.mesaj = response.MESAJ;
+            return View();
+        }
+        public ActionResult Login(string returnUrl = "/Home/Index")
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            return View();
         }
 
+        [HttpPost]
+        public ActionResult Login(string nickname,string password)
+        {
+            var url = "http://eronsoftware.com:55301/KULLANICI/authentication/";
+
+            var httpRequest = (HttpWebRequest)WebRequest.Create(url);
+            httpRequest.Method = "POST";
+
+            httpRequest.Headers["islem"] = "LOGIN";
+            httpRequest.Headers["ptoken"] = "OPp60lBs9vqqNiAvzM2QPsgVuzHvld4ZShVGqlYqEcEgi2BGFt";
+            httpRequest.ContentType = "text";
+            var str = @""" " + $"{nickname}" + @"""";
+            var str2 = @""" " + $"{password}" + @"""";
+            var data = @"{""e_kullanici_adi"":" + $"{str}" + @",""e_sifre"":" + $"{str2}" + "}";
+            
+
+            using (var streamWriter = new StreamWriter(httpRequest.GetRequestStream()))
+            {
+                streamWriter.Write(data);
+            }
+            var result = "";
+            var httpResponse = (HttpWebResponse)httpRequest.GetResponse();
+            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                result = streamReader.ReadToEnd();
+            }
+            result = result.Trim('[');
+            result = result.Trim(']');
+            dynamic user = JsonConvert.DeserializeObject(result);
+            ViewBag.response = user.UTOKEN;
+            UToken = user.UTOKEN;
+            ViewBag.mesaj = user.MESAJ;
+           
+            return user;
+        }
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+        ViewBag.Message = "Your application description page.";
 
-            return View();
+        return View();
         }
 
         public ActionResult Contact()
