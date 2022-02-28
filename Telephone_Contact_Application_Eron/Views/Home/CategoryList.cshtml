@@ -29,9 +29,10 @@
         @Html.DisplayFor(modelItem => item.KategoriAdi)
     </td>
     <td>
-        @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-        @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-        @Html.ActionLink("Delete", "CategoryDelete", new { id=item.ID })
+        @Html.ActionLink("Edit", "CategoryEdit", new { id = item.ID }) |
+        @Html.ActionLink("Details", "PersonList", new { id = item.ID, name = item.KategoriAdi }) |
+        @Html.ActionLink("Delete", "CategoryDelete", new { id = item.ID })
+        @Html.ActionLink("Delete", "PersonAdd", new { id = item.ID })
     </td>
 </tr>
 }

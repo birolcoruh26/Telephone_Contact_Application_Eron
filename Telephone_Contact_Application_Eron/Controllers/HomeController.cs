@@ -26,6 +26,7 @@ namespace Telephone_Contact_Application_Eron.Controllers
             return View(response);
         }
 
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -41,8 +42,7 @@ namespace Telephone_Contact_Application_Eron.Controllers
         }
 
         public static string UToken;
-
-
+        #region login
         public dynamic APILogin()
         {
 
@@ -71,11 +71,207 @@ namespace Telephone_Contact_Application_Eron.Controllers
             result = result.Trim(']');
             dynamic user = JsonConvert.DeserializeObject(result);
             return user;
-        } 
+        }
+        #endregion
+        static List<Person> persons = new List<Person>();
+        //public ActionResult PersonList(int id,string name)
+        //{
+        //    Person person = persons.Find(c => (c.ID == id) && (c.AdiSoyadi  == name));
+        //    return View(person);
+        //}
+        public ActionResult PersonList(int id, string name)
+        {
+            persons.Clear();
+            var url = "http://eronsoftware.com:55301/KULLANICI/kisi/";
+
+            var httpRequest = (HttpWebRequest)WebRequest.Create(url);
+            httpRequest.Method = "POST";
+
+            httpRequest.Headers["islem"] = "KISI_LISTESI";
+            httpRequest.Headers["ptoken"] = "OPp60lBs9vqqNiAvzM2QPsgVuzHvld4ZShVGqlYqEcEgi2BGFt";
+            httpRequest.Headers["utoken"] = UToken;
+            httpRequest.ContentType = "text";
+
+            var str = @""" " + @"""";
+
+            var data = @"{""e_kategori_id"":" + $"{id}" + @",""e_adi_soyadi"":" + $"{str}" + "}";
+            
+            using (var streamWriter = new StreamWriter(httpRequest.GetRequestStream()))
+            {
+                streamWriter.Write(data);
+            }
+            var result = "";
+            var httpResponse = (HttpWebResponse)httpRequest.GetResponse();
+            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                result = streamReader.ReadToEnd();
+            }
+            dynamic user = JsonConvert.DeserializeObject<List<dynamic>>(result);
+
+            foreach (var item in user)
+            {
+                Person b = new Person();
+                b.ID = item["e_id"] != null ? Convert.ToInt32(item["e_id"]) : 0;
+                b.KategoriAdi = item["e_kategori_adi"];
+                b.AdiSoyadi = item["e_adi_soyadi"];
+                b.Telefon = item["e_telefon"];
+                persons.Add(b);
+            }
+            return View(persons);
+        }
+        public ActionResult PersonDelete(int id)
+        {
+            Person person = persons.Find(c => c.ID == id);
+            return View(person);
+        }
+
+        [HttpPost]
+        public ActionResult PersonDelete(Person person)
+        {
+
+            var url = "http://eronsoftware.com:55301/KULLANICI/kisi/";
+
+            var httpRequest = (HttpWebRequest)WebRequest.Create(url);
+            httpRequest.Method = "POST";
+
+            httpRequest.Headers["islem"] = "KISI_LISTESI_SIL";
+            httpRequest.Headers["ptoken"] = "OPp60lBs9vqqNiAvzM2QPsgVuzHvld4ZShVGqlYqEcEgi2BGFt";
+            httpRequest.Headers["utoken"] = UToken;
+            httpRequest.ContentType = "text";
+
+            var data = @"{""ESKI_ID"":" + $"{person.ID}" + "}";
+
+            using (var streamWriter = new StreamWriter(httpRequest.GetRequestStream()))
+            {
+                streamWriter.Write(data);
+            }
+
+            var result = "";
+            var httpResponse = (HttpWebResponse)httpRequest.GetResponse();
+            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                result = streamReader.ReadToEnd();
+            }
+            result = result.Trim('[');
+            result = result.Trim(']');
+            dynamic user = JsonConvert.DeserializeObject(result);
+
+            var m = user.MESAJ;
+            return Redirect("/Home/Index");
+        }
+        static Person person = new Person();
+        public ActionResult PersonAdd()
+        {
+            List<SelectListItem> categories = kategoris.ToList().OrderBy(n => n.KategoriAdi)
+                .Select(n =>
+                        new SelectListItem
+                        {
+                            Value = n.ID.ToString(),
+                            Text = n.KategoriAdi
+                        }).ToList();
+            ViewBag.categories = categories;          
+            return View(person);
+        }
+
+        [HttpPost]
+        public ActionResult PersonAdd(Person person)
+        {
+           
+            var url = "http://eronsoftware.com:55301/KULLANICI/kisi/";
+
+            var httpRequest = (HttpWebRequest)WebRequest.Create(url);
+            httpRequest.Method = "POST";
+
+            httpRequest.Headers["islem"] = "KISI_LISTESI_EKLE";
+            httpRequest.Headers["ptoken"] = "OPp60lBs9vqqNiAvzM2QPsgVuzHvld4ZShVGqlYqEcEgi2BGFt";
+            httpRequest.Headers["utoken"] = UToken;
+            httpRequest.ContentType = "text";
+
+            var str = @""" " + $"{person.AdiSoyadi}" + @"""";
+            var str2 = @""" " + $"{person.Telefon}" + @"""";
+            var data = @"{""e_kategori_id"":" + $"{person.CategoryID}" + @",""e_adi_soyadi"":" + $"{str}" + @",""e_telefon"":" + $"{str2}" + "}";
+            //{ "e_kategori_adi":"kategori.KategoriAdi"};
+
+            using (var streamWriter = new StreamWriter(httpRequest.GetRequestStream()))
+            {
+                streamWriter.Write(data);
+            }
+
+            var result = "";
+            var httpResponse = (HttpWebResponse)httpRequest.GetResponse();
+            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                result = streamReader.ReadToEnd();
+            }
+            result = result.Trim('[');
+            result = result.Trim(']');
+            dynamic user = JsonConvert.DeserializeObject(result);
+
+            ViewBag.m = user.MESAJ;
+           
+            
+            return Redirect("/Home/Index");
+        }
+        public ActionResult PersonEdit(int id)
+        {
+            
+            List<SelectListItem> categories = kategoris.ToList().OrderBy(n => n.KategoriAdi)
+               .Select(n =>
+                       new SelectListItem
+                       {
+                           Value = n.ID.ToString(),
+                           Text = n.KategoriAdi
+                       }).ToList();
+            ViewBag.categories = categories;
+            Person person = persons.Find(c => c.ID == id);
+            return View(person);
+        }
+
+        [HttpPost]
+        public ActionResult PersonEdit(Person person)
+        {
+           
+            var url = "http://eronsoftware.com:55301/KULLANICI/kisi/";
+
+            var httpRequest = (HttpWebRequest)WebRequest.Create(url);
+            httpRequest.Method = "POST";
+
+
+            httpRequest.Headers["islem"] = "KISI_LISTESI_DUZENLE";
+            httpRequest.Headers["ptoken"] = "OPp60lBs9vqqNiAvzM2QPsgVuzHvld4ZShVGqlYqEcEgi2BGFt";
+            httpRequest.Headers["utoken"] = UToken;
+            httpRequest.ContentType = "text";
+
+            var str = @""" " + $"{person.AdiSoyadi}" + @"""";
+
+            var str2 = @""" " + $"{person.Telefon}" + @"""";
+            var data = @"{""e_kategori_id"":" + $"{person.CategoryID}" + @",""e_adi_soyadi"":" + $"{str}" + @",""e_telefon"":" + $"{str2}" + @",""e_telefon"":" + $"{person.ID}" + "}";
+
+
+            using (var streamWriter = new StreamWriter(httpRequest.GetRequestStream()))
+            {
+                streamWriter.Write(data);
+            }
+
+            var result = "";
+            var httpResponse = (HttpWebResponse)httpRequest.GetResponse();
+            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                result = streamReader.ReadToEnd();
+            }
+            result = result.Trim('[');
+            result = result.Trim(']');
+            dynamic user = JsonConvert.DeserializeObject(result);
+
+            ViewBag.m = user.MESAJ;
+            return Redirect("/Home/Index");
+        }
+
+        #region category list
         static List<Kategori> kategoris = new List<Kategori>();
         public ActionResult CategoryList()
         {
-            kategoris.Clear();  
+             kategoris.Clear();
             var url = "http://eronsoftware.com:55301/KULLANICI/kategori/";
 
             var httpRequest = (HttpWebRequest)WebRequest.Create(url);
@@ -101,9 +297,11 @@ namespace Telephone_Contact_Application_Eron.Controllers
                 a.KategoriAdi = item["e_kategori_adi"];
                 kategoris.Add(a);
             }
+           
             return View(kategoris);
         }
 
+        #endregion 
         public ActionResult CategoryDelete(int id)
         {
             Kategori kategori = kategoris.Find(c => c.ID == id);
@@ -144,12 +342,12 @@ namespace Telephone_Contact_Application_Eron.Controllers
             var m = user.MESAJ;
             return Redirect("/Home/Index");
         }
-
+        static Kategori kategori = new Kategori();
         public ActionResult CategoryAdd()
         {
-
-           
+            return View(kategori);
         }
+
         [HttpPost]
         public ActionResult CategoryAdd(Kategori kategori)
         {
@@ -164,7 +362,9 @@ namespace Telephone_Contact_Application_Eron.Controllers
             httpRequest.Headers["utoken"] = UToken;
             httpRequest.ContentType = "text";
 
-            var data = @"{""e_kategori_adi"":" + $"{kategori.KategoriAdi}" + "}";
+            var str = @""" " + $"{kategori.KategoriAdi}" + @"""";
+            var data = @"{""e_kategori_adi"":"+$"{str}"+"}";
+            //{ "e_kategori_adi":"kategori.KategoriAdi"};
 
             using (var streamWriter = new StreamWriter(httpRequest.GetRequestStream()))
             {
@@ -181,8 +381,53 @@ namespace Telephone_Contact_Application_Eron.Controllers
             result = result.Trim(']');
             dynamic user = JsonConvert.DeserializeObject(result);
 
-            var m = user.MESAJ;
+            ViewBag. m = user.MESAJ;
+            return Redirect("/Home/Index");
+        }
+        public ActionResult CategoryEdit(int id)
+        {
+            Kategori kategori = kategoris.Find(c => c.ID == id);
+            return View(kategori);
+        }
+
+        [HttpPost]
+        public ActionResult CategoryEdit(Kategori kategori)
+        {
+
+            var url = "http://eronsoftware.com:55301/KULLANICI/kategori/";
+
+            var httpRequest = (HttpWebRequest)WebRequest.Create(url);
+            httpRequest.Method = "POST";
+            
+
+            httpRequest.Headers["islem"] = "KATEGORI_LISTESI_DUZENLE";
+            httpRequest.Headers["ptoken"] = "OPp60lBs9vqqNiAvzM2QPsgVuzHvld4ZShVGqlYqEcEgi2BGFt";
+            httpRequest.Headers["utoken"] = UToken;
+            httpRequest.ContentType = "text";
+
+            var str = @""" " + $"{kategori.KategoriAdi}" + @"""";
+            
+            var data = @"{""ESKI_ID"":" + $"{kategori.ID}" + @",""e_kategori_adi"":" + $"{str}" + "}";
+         
+
+            using (var streamWriter = new StreamWriter(httpRequest.GetRequestStream()))
+            {
+                streamWriter.Write(data);
+            }
+
+            var result = "";
+           var httpResponse = (HttpWebResponse)httpRequest.GetResponse();
+            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                result = streamReader.ReadToEnd();
+            }
+            result = result.Trim('[');
+            result = result.Trim(']');
+            dynamic user = JsonConvert.DeserializeObject(result);
+
+            ViewBag.m = user.MESAJ;
             return Redirect("/Home/Index");
         }
     }
+   
 }

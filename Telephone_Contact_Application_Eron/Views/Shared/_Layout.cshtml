@@ -153,6 +153,7 @@
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Categories", "CategoryList", new { CustomerID = HttpContext.Current.Request.QueryString["Home"] }, new { @class = "btn btn-secondary btn-m  ", @tabindex = "20" })</li>
+                    <li>@Html.ActionLink("Persons", "PersonList", new { CustomerID = HttpContext.Current.Request.QueryString["Home"] }, new { @class = "btn btn-secondary btn-m  ", @tabindex = "20" })</li>
                 </ul>
             </div>
         </div>

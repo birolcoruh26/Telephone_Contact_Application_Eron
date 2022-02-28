@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Telephone_Contact_Application_Eron.Models.Person>
+
+@{
+    ViewBag.Title = "PersonList";
+}
+
+<h2>PersonList</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.AdiSoyadi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Telefon)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KategoriAdi)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.AdiSoyadi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Telefon)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.KategoriAdi)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "PersonEdit", new { id = item.ID }) |
+        
+            @Html.ActionLink("Delete", "PersonDelete", new { id = item.ID })
+        </td>
+    </tr>
+}
+
+</table>
