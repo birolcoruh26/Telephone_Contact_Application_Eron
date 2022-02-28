@@ -126,6 +126,7 @@
     </Compile>
     <Compile Include="Models\Kategori.cs" />
     <Compile Include="Models\Person.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +173,7 @@
     <Content Include="Views\Home\PersonDelete.cshtml" />
     <Content Include="Views\Home\PersonAdd.cshtml" />
     <Content Include="Views\Home\PersonEdit.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

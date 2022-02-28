@@ -42,8 +42,8 @@ namespace Telephone_Contact_Application_Eron.Controllers
             httpRequest.Headers["islem"] = "LOGIN";
             httpRequest.Headers["ptoken"] = "OPp60lBs9vqqNiAvzM2QPsgVuzHvld4ZShVGqlYqEcEgi2BGFt";
             httpRequest.ContentType = "text";
-            var str = @""" " + $"{nickname}" + @"""";
-            var str2 = @""" " + $"{password}" + @"""";
+            var str = @"""" + $"{nickname}" + @"""";
+            var str2 = @"""" + $"{password}" + @"""";
             var data = @"{""e_kullanici_adi"":" + $"{str}" + @",""e_sifre"":" + $"{str2}" + "}";
             
 
@@ -63,7 +63,11 @@ namespace Telephone_Contact_Application_Eron.Controllers
             ViewBag.response = user.UTOKEN;
             UToken = user.UTOKEN;
             ViewBag.mesaj = user.MESAJ;
-           
+            if (user.ID == 0) // nesne boş ise
+            {
+                ViewBag.Error = "Login failed.";
+                return View("Login");
+            }
             return user;
         }
 
