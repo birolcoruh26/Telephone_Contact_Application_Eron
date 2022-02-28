@@ -117,8 +117,8 @@ namespace Telephone_Contact_Application_Eron.Controllers
             httpRequest.ContentType = "text";
 
             var str = @""" " + @"""";
-
-            var data = @"{""e_kategori_id"":" + $"{id}" + @",""e_adi_soyadi"":" + $"{str}" + "}";
+            
+            var data = @"{""e_kategori_id"":" + $"{0}" + @",""e_adi_soyadi"":" + $"{str}" + "}"; //böyle olursa seçili olanı getirir id si 0 olursa hepsini getirir.
             
             using (var streamWriter = new StreamWriter(httpRequest.GetRequestStream()))
             {
@@ -422,7 +422,7 @@ namespace Telephone_Contact_Application_Eron.Controllers
 
             var httpRequest = (HttpWebRequest)WebRequest.Create(url);
             httpRequest.Method = "POST";
-            
+
 
             httpRequest.Headers["islem"] = "KATEGORI_LISTESI_DUZENLE";
             httpRequest.Headers["ptoken"] = "OPp60lBs9vqqNiAvzM2QPsgVuzHvld4ZShVGqlYqEcEgi2BGFt";
@@ -430,9 +430,9 @@ namespace Telephone_Contact_Application_Eron.Controllers
             httpRequest.ContentType = "text";
 
             var str = @""" " + $"{kategori.KategoriAdi}" + @"""";
-            
+
             var data = @"{""ESKI_ID"":" + $"{kategori.ID}" + @",""e_kategori_adi"":" + $"{str}" + "}";
-         
+
 
             using (var streamWriter = new StreamWriter(httpRequest.GetRequestStream()))
             {
@@ -440,7 +440,7 @@ namespace Telephone_Contact_Application_Eron.Controllers
             }
 
             var result = "";
-           var httpResponse = (HttpWebResponse)httpRequest.GetResponse();
+            var httpResponse = (HttpWebResponse)httpRequest.GetResponse();
             using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
             {
                 result = streamReader.ReadToEnd();
@@ -451,6 +451,7 @@ namespace Telephone_Contact_Application_Eron.Controllers
 
             ViewBag.m = user.MESAJ;
             return Redirect("/Home/Index");
+        
         }
     }
    
