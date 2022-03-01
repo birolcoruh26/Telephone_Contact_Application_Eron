@@ -10,6 +10,69 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <style>
+        /*NAVBAR STYLES*/
+       
+        .navbar {
+            margin-bottom: 0;
+            color: #576366;
+        }
+
+        .navbar-white {
+            background: white;
+            border: 0;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .navbar-nav {
+            margin-right: 0;
+        }
+
+            .navbar-nav > li > a {
+                padding: 16px;
+                margin: 0;
+            }
+
+        .navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
+            color: #9d9d9d;
+            background-color: transparent;
+        }
+
+        .navbar-brand > img {
+            width: 51px;
+            margin-top: -15px;
+        }
+
+        .navbar-toggle {
+            border: 0;
+        }
+
+        .navbar-collapse {
+            border-top: 0;
+        }
+
+        .icon-bar {
+            color: black;
+        }
+
+        .navbar-default .navbar-nav > li > a {
+            padding-left: 19px;
+            padding-right: 19px;
+        }
+
+        .navbar-default .navbar-nav > li > .log-in {
+            border: 2px solid #D5D9D8;
+            border-radius: 6px;
+            padding: 6px 8px;
+            margin-top: 8px;
+        }
+
+
+
+
+
+
+
         .footer {
             background-color: #FFFFFF;
             line-height: 20px;
@@ -136,43 +199,70 @@
     
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top" style="background-color:aquamarine">
 
+    <div class="navbar navbar-default navbar-static-top navbar-white">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <a href="#" class="navbar-brand">
+                    <img src="https://media-exp1.licdn.com/dms/image/C4E0BAQGAQGnVmkpChA/company-logo_200_200/0/1591604293717?e=2159024400&v=beta&t=quq5muqrlOManDX7Tuy8_VNedsa3oo5VnlbJfzIN-_U" alt="">
+                </a>
+                <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("EronContact", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+            <div class="collapse navbar-collapse navHeaderCollapse">
+                <ul class="nav navbar-nav navbar-right">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Categories", "CategoryList", new { CustomerID = HttpContext.Current.Request.QueryString["Home"] }, new { @class = "btn btn-secondary btn-m  ", @tabindex = "20" })</li>
-                    <li>@Html.ActionLink("Persons", "PersonList", new { CustomerID = HttpContext.Current.Request.QueryString["Home"] }, new { @class = "btn btn-secondary btn-m  ", @tabindex = "20" })</li>
+                    <li>@Html.ActionLink("Categories", "CategoryList", "")</li>
+                    <li>@Html.ActionLink("Persons", "PersonList", "Home")</li>
+                    @*logout gelicek*@
+                    
                 </ul>
             </div>
         </div>
     </div>
-    @*<div class="container body-content">*@
-        @RenderBody()
-       
 
+    @*<div class="navbar navbar-inverse navbar-fixed-top" style="background-color:aquamarine">
 
-        <footer class="footer footer-color-black"style="margin-bottom:-62px">
             <div class="container">
-                <nav class="pull-left">
-                    <ul>
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("EronContact", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
                         <li>@Html.ActionLink("Home", "Index", "Home")</li>
                         <li>@Html.ActionLink("About", "About", "Home")</li>
                         <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                        <li>@Html.ActionLink("Categories", "CategoryList", new { CustomerID = HttpContext.Current.Request.QueryString["Home"] }, new { @class = "btn btn-secondary btn-m  ", @tabindex = "20" })</li>
+                        <li>@Html.ActionLink("Persons", "PersonList", new { CustomerID = HttpContext.Current.Request.QueryString["Home"] }, new { @class = "btn btn-secondary btn-m  ", @tabindex = "20" })</li>
                     </ul>
-                </nav>
-                @*<div class="social-area pull-right">
+                </div>
+            </div>
+        </div>*@
+    @*<div class="container body-content">*@
+    @RenderBody()
+
+
+
+    <footer class="footer footer-color-black" style="margin-bottom:-62px">
+        <div class="container">
+            <nav class="pull-left">
+                <ul>
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                </ul>
+            </nav>
+            @*<div class="social-area pull-right">
                     <a class="btn btn-social btn-facebook btn-simple" href="https://www.facebook.com/CreativeTim">
                         <i class="fa fa-facebook-square"></i>
                     </a>
@@ -186,11 +276,11 @@
                         <i class="fa fa-dribbble"></i>
                     </a>
                 </div>*@
-                
-            </div>
-        </footer>
-        
-    
+
+        </div>
+    </footer>
+
+
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

@@ -212,7 +212,10 @@
         margin-top: 2rem;
     }
 </style>
-
+<script type="text/javascript">
+    if ('@ViewBag.ErrorMessage' != "")
+    alert('@ViewBag.ErrorMessage');
+</script>
 <div class="login-container">
     @using (Html.BeginForm())
     {
@@ -259,7 +262,7 @@
 
     }
 </div>
-<script type="text/javascript">
+@*<script type="text/javascript">
     if ('@ViewBag.ErrorMessage' != "")
     alert('@ViewBag.ErrorMessage');
-</script>
+</script>*@
