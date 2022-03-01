@@ -63,12 +63,16 @@ namespace Telephone_Contact_Application_Eron.Controllers
             ViewBag.response = user.UTOKEN;
             UToken = user.UTOKEN;
             ViewBag.mesaj = user.MESAJ;
-            //if (user.ID == 0) // nesne boş ise
-            //{
-            //    ViewBag.Error = "Login failed.";
-            //    return View("Login");
-            //}
+            if (result.Contains("Kullanıcı Adı - Şifre Hatalı")) // nesne boş ise
+            {
+                ViewBag.ErrorMessage = "UserName or Password is wrong";
+                return View("Login");
+            }
+            else
+            {
             return RedirectToAction("Index");
+            }
+            
         }
 
         public ActionResult About()
@@ -86,37 +90,7 @@ namespace Telephone_Contact_Application_Eron.Controllers
         }
 
         public static string UToken;
-        #region login logout
-        //public dynamic APILogin()
-        //{
-
-        //    var url = "http://eronsoftware.com:55301/KULLANICI/authentication/";
-
-        //    var httpRequest = (HttpWebRequest)WebRequest.Create(url);
-        //    httpRequest.Method = "POST";
-
-        //    httpRequest.Headers["islem"] = "LOGIN";
-        //    httpRequest.Headers["ptoken"] = "OPp60lBs9vqqNiAvzM2QPsgVuzHvld4ZShVGqlYqEcEgi2BGFt";
-        //    httpRequest.ContentType = "text";
-
-        //    var data = @"{""e_kullanici_adi"":""networkAkademi028"",""e_sifre"":""sifre028""}";
-
-        //    using (var streamWriter = new StreamWriter(httpRequest.GetRequestStream()))
-        //    {
-        //        streamWriter.Write(data);
-        //    }
-        //    var result = "";
-        //    var httpResponse = (HttpWebResponse)httpRequest.GetResponse();
-        //    using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-        //    {
-        //        result = streamReader.ReadToEnd();
-        //    }
-        //    result = result.Trim('[');
-        //    result = result.Trim(']');
-        //    dynamic user = JsonConvert.DeserializeObject(result);
-        //    return user;
-        //}
-
+       
         public dynamic APILogout()
         {
 
@@ -140,13 +114,9 @@ namespace Telephone_Contact_Application_Eron.Controllers
             dynamic user = JsonConvert.DeserializeObject(result);
             return user;
         }
-        #endregion
+      
         static List<Person> persons = new List<Person>();
-        //public ActionResult PersonList(int id,string name)
-        //{
-        //    Person person = persons.Find(c => (c.ID == id) && (c.AdiSoyadi  == name));
-        //    return View(person);
-        //}
+     
         public ActionResult PersonList(int id, string name)
         {
             persons.Clear();
