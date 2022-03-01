@@ -19,10 +19,10 @@ namespace Telephone_Contact_Application_Eron.Controllers
     {
         public ActionResult Index()
         {
-            //var response = APILogin();
-            //ViewBag.response = response.UTOKEN;
-            //UToken = response.UTOKEN;
-            //ViewBag.mesaj = response.MESAJ;
+          //  var response = APILogin();
+          //  ViewBag.response = response.UTOKEN;
+          //UToken = response.UTOKEN;
+          //  ViewBag.mesaj = response.MESAJ;
             return View();
         }
         public ActionResult Login(string returnUrl = "/Home/Index")
@@ -63,12 +63,12 @@ namespace Telephone_Contact_Application_Eron.Controllers
             ViewBag.response = user.UTOKEN;
             UToken = user.UTOKEN;
             ViewBag.mesaj = user.MESAJ;
-            if (user.ID == 0) // nesne boş ise
-            {
-                ViewBag.Error = "Login failed.";
-                return View("Login");
-            }
-            return user;
+            //if (user.ID == 0) // nesne boş ise
+            //{
+            //    ViewBag.Error = "Login failed.";
+            //    return View("Login");
+            //}
+            return RedirectToAction("Index");
         }
 
         public ActionResult About()
@@ -87,35 +87,35 @@ namespace Telephone_Contact_Application_Eron.Controllers
 
         public static string UToken;
         #region login logout
-        public dynamic APILogin()
-        {
+        //public dynamic APILogin()
+        //{
 
-            var url = "http://eronsoftware.com:55301/KULLANICI/authentication/";
+        //    var url = "http://eronsoftware.com:55301/KULLANICI/authentication/";
 
-            var httpRequest = (HttpWebRequest)WebRequest.Create(url);
-            httpRequest.Method = "POST";
+        //    var httpRequest = (HttpWebRequest)WebRequest.Create(url);
+        //    httpRequest.Method = "POST";
 
-            httpRequest.Headers["islem"] = "LOGIN";
-            httpRequest.Headers["ptoken"] = "OPp60lBs9vqqNiAvzM2QPsgVuzHvld4ZShVGqlYqEcEgi2BGFt";
-            httpRequest.ContentType = "text";
+        //    httpRequest.Headers["islem"] = "LOGIN";
+        //    httpRequest.Headers["ptoken"] = "OPp60lBs9vqqNiAvzM2QPsgVuzHvld4ZShVGqlYqEcEgi2BGFt";
+        //    httpRequest.ContentType = "text";
 
-            var data = @"{""e_kullanici_adi"":""networkAkademi028"",""e_sifre"":""sifre028""}";
+        //    var data = @"{""e_kullanici_adi"":""networkAkademi028"",""e_sifre"":""sifre028""}";
 
-            using (var streamWriter = new StreamWriter(httpRequest.GetRequestStream()))
-            {
-                streamWriter.Write(data);
-            }
-            var result = "";
-            var httpResponse = (HttpWebResponse)httpRequest.GetResponse();
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-            {
-                result = streamReader.ReadToEnd();
-            }
-            result = result.Trim('[');
-            result = result.Trim(']');
-            dynamic user = JsonConvert.DeserializeObject(result);
-            return user;
-        }
+        //    using (var streamWriter = new StreamWriter(httpRequest.GetRequestStream()))
+        //    {
+        //        streamWriter.Write(data);
+        //    }
+        //    var result = "";
+        //    var httpResponse = (HttpWebResponse)httpRequest.GetResponse();
+        //    using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+        //    {
+        //        result = streamReader.ReadToEnd();
+        //    }
+        //    result = result.Trim('[');
+        //    result = result.Trim(']');
+        //    dynamic user = JsonConvert.DeserializeObject(result);
+        //    return user;
+        //}
 
         public dynamic APILogout()
         {
