@@ -1,116 +1,65 @@
 ﻿@{
     ViewBag.Title = "Contact";
 }
-    <style>
-        body {
-            background-color: #474747;
-        }
+<style type="text/css">
+    /* Set a size for our map container, the Google Map will take up 100% of this container */
+    #map {
+        width: 750px;
+        height: 500px;
+    }
+</style>
 
+<!--
+    You need to include this script tag on any page that has a Google Map.
 
-        h1 {
-            font-size: 45px;
-            width: 100%;
-            text-align: center;
-            font-weight: bold;
-            color: black;
-            margin-bottom: 40px;
-            color: #000;
-            text-shadow: 0 2px 3px #555555;
-            font-family: Tahoma;
-        }
+    The following script tag will work when opening this example locally on your computer.
+    But if you use this on a localhost server or a live website you will need to include an API key.
+    Sign up for one here (it's free for small usage):
+        https://developers.google.com/maps/documentation/javascript/tutorial#api_key
 
+    After you sign up, use the following script tag with YOUR_GOOGLE_API_KEY replaced with your actual key.
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_API_KEY&sensor=false"></script>
+-->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 
-        .container {
-            width: 100%;
-            margin: 0 auto;
-            margin-top: 50px;
-        }
+<script type="text/javascript">
+    // When the window has finished loading create our google map below
+    google.maps.event.addDomListener(window, 'load', init);
 
-        #map_container {
-            position: relative;
-        }
+    function init() {
+        // Basic options for a simple Google Map
+        // For more options see: https://developers.google.com/maps/documentation/javascript/reference#MapOptions
+        var mapOptions = {
+            // How zoomed in you want the map to start at (always required)
+            zoom: 11,
 
-        #map {
-            height: 0;
-            overflow: hidden;
-            padding-bottom: 22.25%;
-            padding-top: 30px;
-            position: relative;
-        }
-    </style>
+            // The latitude and longitude to center the map (always required)
+            center: new google.maps.LatLng(40.6700, -73.9400), // New York
 
- <script type="text/javascript">
-    $(document).ready(function () {
+            // How you would like to style the map.
+            // This is where you would paste any style found on Snazzy Maps.
+            styles: [{ "featureType": "water", "elementType": "all", "stylers": [{ "hue": "#001204" }, { "saturation": 100 }, { "lightness": -95 }, { "visibility": "on" }] }, { "featureType": "landscape.man_made", "elementType": "all", "stylers": [{ "hue": "#007F1E" }, { "saturation": 100 }, { "lightness": -72 }, { "visibility": "on" }] }, { "featureType": "landscape.natural", "elementType": "all", "stylers": [{ "hue": "#00C72E" }, { "saturation": 100 }, { "lightness": -59 }, { "visibility": "on" }] }, { "featureType": "road", "elementType": "all", "stylers": [{ "hue": "#002C0A" }, { "saturation": 100 }, { "lightness": -87 }, { "visibility": "on" }] }, { "featureType": "poi", "elementType": "all", "stylers": [{ "hue": "#00A927" }, { "saturation": 100 }, { "lightness": -58 }, { "visibility": "on" }] }]
+        };
 
-        $('body').noisy({
-            intensity: 0.2,
-            size: 200,
-            opacity: 0.28,
-            randomColors: false, // true by default
-            color: '#000000'
+        // Get the HTML DOM element that will contain your map
+        // We are using a div with id="map" seen below in the <body>
+        var mapElement = document.getElementById('map');
+
+        // Create the Google Map using our element and options defined above
+        var map = new google.maps.Map(mapElement, mapOptions);
+
+        // Let's also add a marker while we're at it
+        var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(40.6700, -73.9400),
+            map: map,
+            title: 'Snazzy!'
         });
-
-        //Google Maps JS
-        //Set Map
-        function initialize() {
-            var myLatlng = new google.maps.LatLng(53.3333, -3.08333);
-            var imagePath = 'http://m.schuepfen.ch/icons/helveticons/black/60/Pin-location.png'
-            var mapOptions = {
-                zoom: 11,
-                center: myLatlng,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            }
-
-            var map = new google.maps.Map(document.getElementById('map'), mapOptions);
-            //Callout Content
-            var contentString = 'Some address here..';
-            //Set window width + content
-            var infowindow = new google.maps.InfoWindow({
-                content: contentString,
-                maxWidth: 500
-            });
-
-            //Add Marker
-            var marker = new google.maps.Marker({
-                position: myLatlng,
-                map: map,
-                icon: imagePath,
-                title: 'image title'
-            });
-
-            google.maps.event.addListener(marker, 'click', function () {
-                infowindow.open(map, marker);
-            });
-
-            //Resize Function
-            google.maps.event.addDomListener(window, "resize", function () {
-                var center = map.getCenter();
-                google.maps.event.trigger(map, "resize");
-                map.setCenter(center);
-            });
-            
-        }
-
-        google.maps.event.addDomListener(window, 'load', initialize);
-
-    });
+    }
 </script>
-
-<div class="container">
-    <h1>Responsive Map</h1>
-    <div id="map_container"></div>
+    </head>
+<body>
     <div id="map"></div>
-</div>
-
-<div>
-    <address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
-</div>
-
+</body>
 
 <address>
     <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
