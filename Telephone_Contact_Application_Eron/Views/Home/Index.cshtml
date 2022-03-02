@@ -107,6 +107,30 @@
         .list-group-item {
             background-color: honeydew;
         }
+        ul.person-process {
+            list-style: none;
+            margin: 0px;
+            min-height: 44px;
+        }
+
+            ul.person-process li {
+                margin-top: 8px;
+                float: left;
+            }
+
+                ul.person-process li a {
+                    font-size: 1.7em;
+                    padding: 11px 10px 6px;
+                }
+
+                    ul.person-process li a i {
+                        min-width: 24px;
+                        text-align: center;
+                    }
+
+                    ul.person-process li a:hover {
+                        background-color: rgba(51, 51, 51, 0.2);
+                    }
     </style>
 </head>
 
@@ -140,7 +164,6 @@
                             </div>
                         </div>
                     </div>
-                    <div>
                 </form>
                 <ul class="list-group" id="contact-list">
                     @foreach (var person in Model)
@@ -155,8 +178,13 @@
                                 <span class="visible-xs"> <span class="text-muted">@person.KategoriAdi</span><br /></span>
                                 <span class="glyphicon glyphicon-earphone text-muted c-info" data-toggle="tooltip" title=@person.Telefon></span>
                                 <span class="visible-xs"> <span class="text-muted">@person.Telefon</span><br /></span>
-                                @*<span class="fa fa-comments text-muted c-info" data-toggle="tooltip" title=>@person.</span>
-                        <span class="visible-xs"> <span class="text-muted">scott.stevens@example.com</span><br /></span>*@
+                            </div>
+                            <div class="col-xs-12 col-sm-9">
+                                <ul class="pull-right person-process">
+                                    <li><a href="@Url.Action("PersonDelete", "Home", new { id = person.ID})" data-toggle="tooltip" data-placement="top" title="Delete this Contact"><i class="fa fa-trash"></i></a></li>
+                                    <li><a href="@Url.Action("PersonEdit", "Home", new { id = person.ID})" data-toggle="tooltip" data-placement="top" title="Edit this Contact"><i class="fa fa-edit"></i></a></li>
+                                    
+                                </ul>
                             </div>
                             <div class="clearfix"></div>
                         </li>
@@ -209,5 +237,5 @@
             })
         });
     </script>
-</div>
+
 

@@ -167,7 +167,7 @@ namespace Telephone_Contact_Application_Eron.Controllers
 
         public static string UToken;
        
-        public dynamic APILogout()
+        public ActionResult Logout()
         {
 
             var url = "http://eronsoftware.com:55301/KULLANICI/authentication/";
@@ -188,52 +188,12 @@ namespace Telephone_Contact_Application_Eron.Controllers
             result = result.Trim('[');
             result = result.Trim(']');
             dynamic user = JsonConvert.DeserializeObject(result);
-            return user;
+            return RedirectToAction("Login");
         }
       
         static List<Person> persons = new List<Person>();
      
-        //public ActionResult PersonList(int id, string name)
-        //{
-        //    persons.Clear();
-        //    var url = "http://eronsoftware.com:55301/KULLANICI/kisi/";
-
-        //    var httpRequest = (HttpWebRequest)WebRequest.Create(url);
-        //    httpRequest.Method = "POST";
-
-        //    httpRequest.Headers["islem"] = "KISI_LISTESI";
-        //    httpRequest.Headers["ptoken"] = "OPp60lBs9vqqNiAvzM2QPsgVuzHvld4ZShVGqlYqEcEgi2BGFt";
-        //    httpRequest.Headers["utoken"] = UToken;
-        //    httpRequest.ContentType = "text";
-
-        //    var str = @""" " + @"""";
-            
-        //    var data = @"{""e_kategori_id"":" + $"{0}" + @",""e_adi_soyadi"":" + $"{str}" + "}"; //böyle olursa seçili olanı getirir id si 0 olursa hepsini getirir.
-            
-        //    using (var streamWriter = new StreamWriter(httpRequest.GetRequestStream()))
-        //    {
-        //        streamWriter.Write(data);
-        //    }
-        //    var result = "";
-        //    var httpResponse = (HttpWebResponse)httpRequest.GetResponse();
-        //    using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-        //    {
-        //        result = streamReader.ReadToEnd();
-        //    }
-        //    dynamic user = JsonConvert.DeserializeObject<List<dynamic>>(result);
-
-        //    foreach (var item in user)
-        //    {
-        //        Person b = new Person();
-        //        b.ID = item["e_id"] != null ? Convert.ToInt32(item["e_id"]) : 0;
-        //        b.KategoriAdi = item["e_kategori_adi"];
-        //        b.AdiSoyadi = item["e_adi_soyadi"];
-        //        b.Telefon = item["e_telefon"];
-        //        persons.Add(b);
-        //    }
-        //    ViewBag.Persons = persons;
-        //    return View(persons);
-        //}
+       
         public ActionResult PersonDelete(int id)
         {
             Person person = persons.Find(c => c.ID == id);
@@ -306,7 +266,7 @@ namespace Telephone_Contact_Application_Eron.Controllers
             var str = @""" " + $"{person.AdiSoyadi}" + @"""";
             var str2 = @""" " + $"{person.Telefon}" + @"""";
             var data = @"{""e_kategori_id"":" + $"{person.CategoryID}" + @",""e_adi_soyadi"":" + $"{str}" + @",""e_telefon"":" + $"{str2}" + "}";
-            //{ "e_kategori_adi":"kategori.KategoriAdi"};
+            
 
             using (var streamWriter = new StreamWriter(httpRequest.GetRequestStream()))
             {
