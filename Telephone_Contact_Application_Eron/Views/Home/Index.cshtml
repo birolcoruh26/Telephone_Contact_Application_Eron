@@ -182,7 +182,7 @@
                             <div class="col-xs-12 col-sm-9">
                                 <ul class="pull-right person-process">
                                     <li><a href="@Url.Action("PersonDelete", "Home", new { id = person.ID})" data-toggle="tooltip" data-placement="top" title="Delete this Contact"><i class="fa fa-trash"></i></a></li>
-                                    <li><a href="@Url.Action("PersonEdit", "Home", new { id = person.ID})" data-toggle="tooltip" data-placement="top" title="Edit this Contact"><i class="fa fa-edit"></i></a></li>
+                                    <li><a href="@Url.Action("PersonEdit", "Home", new { id = person.ID,CategoryID = person.CategoryID})" data-toggle="tooltip" data-placement="top" title="Edit this Contact"><i class="fa fa-edit"></i></a></li>
                                     
                                 </ul>
                             </div>

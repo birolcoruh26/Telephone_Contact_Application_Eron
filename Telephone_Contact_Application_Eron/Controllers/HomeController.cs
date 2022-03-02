@@ -18,7 +18,8 @@ namespace Telephone_Contact_Application_Eron.Controllers
     public class HomeController : Controller
     {
         public ActionResult Index()
-        {
+        { 
+            firstList();
             persons.Clear();
             var url = "http://eronsoftware.com:55301/KULLANICI/kisi/";
 
@@ -61,6 +62,7 @@ namespace Telephone_Contact_Application_Eron.Controllers
         [HttpPost]
         public ActionResult Index(string searchterm)
         {
+           
             List<Person> searchedStudents = new List<Person>();
             var url = "http://eronsoftware.com:55301/KULLANICI/kisi/";
 
@@ -237,7 +239,7 @@ namespace Telephone_Contact_Application_Eron.Controllers
         static Person person = new Person();
         public ActionResult PersonAdd()
         {
-            List<SelectListItem> categories = kategoris.ToList().OrderBy(n => n.KategoriAdi)
+            List<SelectListItem> categories = persons.ToList().OrderBy(n => n.KategoriAdi)
                 .Select(n =>
                         new SelectListItem
                         {
@@ -375,9 +377,40 @@ namespace Telephone_Contact_Application_Eron.Controllers
             }
            
             return View(kategoris);
-        }
-
+        } 
         #endregion 
+        public dynamic firstList()
+        {
+            kategoris.Clear();
+            var url = "http://eronsoftware.com:55301/KULLANICI/kategori/";
+
+            var httpRequest = (HttpWebRequest)WebRequest.Create(url);
+            httpRequest.Method = "POST";
+
+            httpRequest.Headers["islem"] = "KATEGORI_LISTESI";
+            httpRequest.Headers["ptoken"] = "OPp60lBs9vqqNiAvzM2QPsgVuzHvld4ZShVGqlYqEcEgi2BGFt";
+            httpRequest.Headers["utoken"] = UToken;
+            httpRequest.ContentType = "text";
+
+            var result = "";
+            var httpResponse = (HttpWebResponse)httpRequest.GetResponse();
+            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                result = streamReader.ReadToEnd();
+            }
+            dynamic user = JsonConvert.DeserializeObject<List<dynamic>>(result);
+
+            foreach (var item in user)
+            {
+                Kategori a = new Kategori();
+                a.ID = item["e_id"] != null ? Convert.ToInt32(item["e_id"]) : 0;
+                a.KategoriAdi = item["e_kategori_adi"];
+                kategoris.Add(a);
+            }
+            return kategoris;
+            
+        }
+       
         public ActionResult CategoryDelete(int id)
         {
             Kategori kategori = kategoris.Find(c => c.ID == id);
