@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
- 
+
     @Scripts.Render("~/bundles/modernizr")
     <style>
         /*NAVBAR STYLES*/
@@ -15,9 +16,9 @@
         .body {
             margin-top: -20px;
         }
+
         .navbar {
             margin-bottom: 0;
-
             color: #576366;
         }
 
@@ -81,8 +82,8 @@
             background-color: #FFFFFF;
             line-height: 20px;
             border-top: 1px solid #DDDDDD;
-         
         }
+
             .footer nav > ul {
                 list-style: none;
                 margin: 0;
@@ -99,6 +100,7 @@
                     .footer nav > ul a:not(.btn):hover, .footer nav > ul a:not(.btn):focus {
                         color: #777777;
                     }
+
             .footer .social-area {
                 padding: 15px 0;
             }
@@ -200,14 +202,14 @@
                 color: #DDDDDD;
             }
     </style>
-    
+
 </head>
 <body>
 
     <div class="navbar navbar-default navbar-static-top navbar-white">
         <div class="container">
             <div class="navbar-header">
-                <a href="#" class="navbar-brand">
+                <a href="@Url.Action("Index", "Home")" class="navbar-brand">
                     <img src="https://media-exp1.licdn.com/dms/image/C4E0BAQGAQGnVmkpChA/company-logo_200_200/0/1591604293717?e=2159024400&v=beta&t=quq5muqrlOManDX7Tuy8_VNedsa3oo5VnlbJfzIN-_U" alt="">
                 </a>
                 <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">

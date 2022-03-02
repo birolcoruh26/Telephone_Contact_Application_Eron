@@ -55,8 +55,51 @@ namespace Telephone_Contact_Application_Eron.Controllers
                 b.Telefon = item["e_telefon"];
                 persons.Add(b);
             }
-            ViewBag.Persons = persons;
+           
             return View(persons);
+        }
+        [HttpPost]
+        public ActionResult Index(string searchterm)
+        {
+            List<Person> searchedStudents = new List<Person>();
+            var url = "http://eronsoftware.com:55301/KULLANICI/kisi/";
+
+            var httpRequest = (HttpWebRequest)WebRequest.Create(url);
+            httpRequest.Method = "POST";
+
+            httpRequest.Headers["islem"] = "KISI_LISTESI";
+            httpRequest.Headers["ptoken"] = "OPp60lBs9vqqNiAvzM2QPsgVuzHvld4ZShVGqlYqEcEgi2BGFt";
+            httpRequest.Headers["utoken"] = UToken;
+            httpRequest.ContentType = "text";
+
+            var str = @"""" + $"{searchterm}" + @"""";
+
+            var data = @"{""e_kategori_id"":" + $"{0}" + @",""e_adi_soyadi"":" + $"{str}" + "}"; //search işlemi de eklendi
+
+            using (var streamWriter = new StreamWriter(httpRequest.GetRequestStream()))
+            {
+                streamWriter.Write(data);
+            }
+            var result = "";
+            var httpResponse = (HttpWebResponse)httpRequest.GetResponse();
+            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                result = streamReader.ReadToEnd();
+            }
+            dynamic user = JsonConvert.DeserializeObject<List<dynamic>>(result);
+
+            foreach (var item in user)
+            {
+                Person b = new Person();
+                b.ID = item["e_id"] != null ? Convert.ToInt32(item["e_id"]) : 0;
+                b.KategoriAdi = item["e_kategori_adi"];
+                b.AdiSoyadi = item["e_adi_soyadi"];
+                b.Telefon = item["e_telefon"];
+                searchedStudents.Add(b);
+            }
+
+           
+            return View(searchedStudents);
         }
         public ActionResult Login(string returnUrl = "/Home/Index")
         {
@@ -241,7 +284,8 @@ namespace Telephone_Contact_Application_Eron.Controllers
                             Value = n.ID.ToString(),
                             Text = n.KategoriAdi
                         }).ToList();
-            ViewBag.categories = categories;          
+            ViewBag.categories = categories;
+            ViewBag.kisi = person;
             return View(person);
         }
 
