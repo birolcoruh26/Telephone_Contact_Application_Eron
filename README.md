@@ -7,3 +7,5 @@ Eron_Task
 ![@](https://github.com/birolcoruh26/Telephone_Contact_Application_Eron/blob/master/Resimler/Login.PNG)
 #### Home Page
 ![@](https://github.com/birolcoruh26/Telephone_Contact_Application_Eron/blob/master/Resimler/index%20ekran%C4%B1.png)
+#### Category Page
+![@](https://github.com/birolcoruh26/Telephone_Contact_Application_Eron/blob/master/Resimler/Categories.PNG)
