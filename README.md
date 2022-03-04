@@ -12,4 +12,4 @@ Eron_Task
 #### Search Person
 ![@](https://github.com/birolcoruh26/Telephone_Contact_Application_Eron/blob/master/Resimler/Search%20Person.png)
 #### Edit Person
-![@](https://github.com/birolcoruh26/Telephone_Contact_Application_Eron/blob/master/Resimler/Edit%20Person.png)
+
